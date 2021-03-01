@@ -18,21 +18,19 @@ void arr_show(double arr[3][4],int n,int m){
 double determinant(double arr[3][4],int n,int m){//triangle rule
 	double plus = arr[0][0]*arr[1][1]*arr[2][2] + arr[0][1]*arr[1][2]*arr[2][0] + arr[0][2]*arr[1][0]*arr[2][1];
 	double minus = arr[0][2]*arr[1][1]*arr[2][0] + arr[0][1]*arr[1][0]*arr[2][2] + arr[0][0]*arr[1][2]*arr[2][1];
-	return plus - minus;
+	double determinant = plus - minus;
+	return determinant;
 }
 
 void gaussMethod(double arr[3][4],int n,int m){
-	float  tmp;
+	float tmp;
     int k;
-    float *xx = new float [m];
- 
-    for (int i = 0; i<n; i++)
-    {
+    for (int i = 0; i < n; i++){
         tmp = arr[i][i];
-        for (int j = n; j >= i; j--)
+        for (int j = n; j >= i; j--){
             arr[i][j] /= tmp;
-        for (int j = i + 1; j<n; j++)
-        {
+        }
+        for (int j = i + 1; j<n; j++){
             tmp = arr[j][i];
             for (k = n; k >= i; k--)
                 arr[j][k] -= tmp*arr[i][k];
@@ -64,15 +62,23 @@ void fil_ex_arr(double first[3][4],int n,int m, double second[3][4]){
 	second[2][2]=second[2][3];
 }
 
-void isJoint(double arr[3][4],int n,int m,double ex_arr[3][4]){//теорема кронекера-капели
+void isJoint(double arr[3][4],int n,int m,double ex_arr[3][4],double arr_answer[3]){//теорема кронекера-капели
 	fil_ex_arr(arr, n, m,ex_arr);
 	gaussMethod(arr, n, m);
 	gaussMethod(ex_arr,n,m);
-	//cout << "determinant = " << determinant(arr, n, m) << endl;
-	//cout << n<< endl;
+
 	double rangA = determinant(arr,n,m) * n;
 	double rangAB = determinant(ex_arr,n,m) * n;
-	if (rangA == rangAB) cout << "yes";
+	const double eps = 0.0001;
+	if ((fabs(rangA-rangAB) < eps) && (fabs(rangA-n) < eps)) {
+		cout << "система совместна ";
+		//cout << endl; arr_show(arr, n, m);
+		answer(arr,n,m,arr_answer);
+		arr_show(arr_answer,n);
+	} else {
+		cout << "система несовместна" << endl;
+	}
+		
 }
 
 
@@ -85,12 +91,7 @@ int main(){
 	double ex_arr[n][m] = {0};
 	double arr_answer[n] = {0};
 	arr_show(arr, n, m);
-	isJoint(arr,n,m, ex_arr);
-	//cout << "determinant = " << determinant(arr, n, m) << endl;
-	//arr_show(ex_arr,n,m);
-	//arr_show(arr, n, m);
-	answer(arr,n,m,arr_answer);
-	arr_show(arr_answer,n);
+	isJoint(arr,n,m, ex_arr,arr_answer);
 	return 0;
 
 }
