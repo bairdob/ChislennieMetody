@@ -8,7 +8,7 @@ void arr_show(double arr[3][4],int n,int m){
 	auto p = std::cout.precision(2);
 	for (int i = 0; i < n; i++){
 		for (int j = 0; j < m; j++){
-			cout << std::setw(6)  << arr[i][j] << " ";
+			cout << std::setw(8)  << arr[i][j] << " ";
 		}
 		cout << endl;
 	}
@@ -72,7 +72,7 @@ void isJoint(double arr[3][4],int n,int m,double ex_arr[3][4],double arr_answer[
 	const double eps = 0.0001;
 	if ((fabs(rangA-rangAB) < eps) && (fabs(rangA-n) < eps)) {
 		cout << "система совместна ";
-		//cout << endl; arr_show(arr, n, m);
+		cout << endl; arr_show(arr, n, m);
 		answer(arr,n,m,arr_answer);
 		arr_show(arr_answer,n);
 	} else {
@@ -85,13 +85,12 @@ void isJoint(double arr[3][4],int n,int m,double ex_arr[3][4],double arr_answer[
 int main(){
 	const int n = 3;
 	const int m = 4; 
-	double arr[n][m] = {{2,5,1,1},
-						{-1,2,-2,2},
-						{6,2,1,3}};
+	double arr[n][m] = {{3.5,-2.12,-4.03,-7.5},
+						{0.61,3.71,-0.05,0.44},
+						{-1.03,-2.05,5.87,-1.16}};
 	double ex_arr[n][m] = {0};
 	double arr_answer[n] = {0};
 	arr_show(arr, n, m);
-	isJoint(arr,n,m, ex_arr,arr_answer);
+	isJoint(arr, n, m, ex_arr,arr_answer);
 	return 0;
-
 }
