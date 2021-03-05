@@ -111,7 +111,6 @@ double calc_beta(double arr_ans1[3],double arr_ans2[3], int n){
 	return norma_dif;
 }
 
-
 void show_answer(double arr[3][4],int n,int m,double arr_ans1[3],double arr_ans2[3],double arr_b[3][4],int iter){
 	copy_arr(arr_ans1,arr_ans2);
 	calc_answer(arr,n,m,arr_ans1,arr_ans2);
@@ -125,12 +124,12 @@ void show_answer(double arr[3][4],int n,int m,double arr_ans1[3],double arr_ans2
 int main(){
 	const int n = 3;
 	const int m = 4; 
-	// double arr[n][m] = {{3.5,-2.12,-4.03,-7.5},
-	// 					{0.61,3.71,-0.05,0.44},
-	// 					{-1.03,-2.05,5.87,-1.16}};	
-	double arr[n][m] = {{20, 4, -8, 1},
-						{-3, 15, 5, -2},
-						{6, 3, -18, 3}};
+	double arr[n][m] = {{3.5,-2.12,-4.03,-7.5},
+						{0.61,3.71,-0.05,0.44},
+						{-1.03,-2.05,5.87,-1.16}};	
+	// double arr[n][m] = {{20, 4, -8, 1},
+	// 					{-3, 15, 5, -2},
+	// 					{6, 3, -18, 3}};
 	double arr_b[n][m] = {0};
 	double eps = 0.01;
 	double arr_ans1[n] = {0};
@@ -144,9 +143,11 @@ int main(){
 	calc_answer(arr, n, m, arr_ans1, arr_ans2);
 	arr_show(arr_ans2, n); cout <<endl;
 	int iteration = 1;
-	while (calc_eps(norma_matrix(arr_b, n, m),iteration,norma_vector(arr_b, n, m))>eps){
+	do{	
 		show_answer(arr, n, m, arr_ans1, arr_ans2, arr_b,iteration);
 		iteration++;
+		if (norma_matrix(arr_b, n, m) > 1) cout << "Метод расходится" <<  " ||B|| = "<< norma_matrix(arr_b, n, m) << endl;
 	}
+	while (calc_eps(norma_matrix(arr_b, n, m),iteration,norma_vector(arr_b, n, m)) > eps);
 	return 0;
 }
