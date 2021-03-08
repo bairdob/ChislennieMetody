@@ -49,7 +49,7 @@ void arr_show(double *answer, int n){
 	cout << "x = {";
 	for (int i = 0; i < n; i++) {
 		cout <<answer[i];
-		if (i < 2) cout << ", "; 
+		if (i < n-1) cout << ", "; 
 	}
 	cout << "}";
 	std::cout.precision(p);
@@ -79,3 +79,60 @@ void isJoint(double arr[3][4],int n,int m,double ex_arr[3][4],double arr_answer[
 	}
 		
 }
+
+//
+
+double determinant(double arr[2][3],int n,int m){
+	double plus = arr[0][0]*arr[1][1];
+	double minus = arr[0][1]*arr[1][0];
+	double determinant = plus - minus;
+	return determinant;
+}
+
+void gaussMethod(double arr[2][3],int n,int m){
+	float tmp;
+    int k;
+    for (int i = 0; i < n; i++){
+        tmp = arr[i][i];
+        for (int j = n; j >= i; j--){
+            arr[i][j] /= tmp;
+        }
+        for (int j = i + 1; j<n; j++){
+            tmp = arr[j][i];
+            for (k = n; k >= i; k--)
+                arr[j][k] -= tmp*arr[i][k];
+        }
+    }
+}
+
+void answer(double arr[2][3],int n,int m, double *answer){
+	answer[1] = arr[1][2]-arr[1][2]*answer[1];
+	answer[0] = arr[0][2]-arr[0][1]*answer[1];
+}
+
+
+void fil_ex_arr(double first[2][3],int n,int m, double second[2][3]){
+	memcpy(second, first, sizeof(double)*n*m);
+	second[0][1]=second[0][2];
+	second[1][1]=second[1][2];
+
+}
+
+void isJoint(double arr[2][3],int n,int m,double ex_arr[2][3],double arr_answer[3]){//теорема кронекера-капели
+	fil_ex_arr(arr, n, m,ex_arr);
+	gaussMethod(arr, n, m);
+	gaussMethod(ex_arr,n,m);
+	double rangA = determinant(arr,n,m) * n;
+	double rangAB = determinant(ex_arr,n,m) * n;
+	const double eps = 0.0001;
+	if ((fabs(rangA-rangAB) < eps) && (fabs(rangA-n) < eps)) {
+		cout << "система совместна ";
+		//cout << endl; arr_show(arr, n, m);
+		answer(arr,n,m,arr_answer);
+		arr_show(arr_answer,n);
+	} else {
+		cout << "система несовместна" << endl;
+	}
+		
+}
+
