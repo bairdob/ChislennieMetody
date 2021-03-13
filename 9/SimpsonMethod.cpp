@@ -1,6 +1,7 @@
 //SimpsonMethod.cpp 
 #include <iostream>
 #include <iomanip> // setw()
+#include <cmath>
 using namespace std;
 
 
@@ -28,7 +29,7 @@ void arr_show(const double (&arr)[n][m]){
 
 double f(double x){ 
 	//double f_x = cos(x) / (x+2); // example Дружинин 14.2
-	double f_x = exp(-x*x);
+	double f_x = log10(x+2) / x;
 	return f_x;
 }
 
@@ -63,8 +64,8 @@ int main(){
 	const int n = 11;  //n+1
 	double x[n] = {0};
 	double y[n] = {0};
-	double a = 0; 
-	double b = 1;
+	double a = 1.2; 
+	double b = 2;
 	
 	init_arr_x(x, a, b);
 	cout << "x = "; arr_show(x);
