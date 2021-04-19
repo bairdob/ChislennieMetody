@@ -1,4 +1,4 @@
-//rectanglesMethod.cpp 
+//rectanglesMethod.cpp  https://ru.wikipedia.org/wiki/Метод_прямоугольников
 #include <iostream>
 #include <iomanip> // setw()
 #include <cmath>
@@ -47,13 +47,34 @@ void init_arr_y(const double (&x)[n], double (&y)[n]){
 }
 
 template <size_t n>
-double calc_integral(const double (&y)[n],const double &a, const double &b ){
+double calc_integral_left(const double (&y)[n],const double &a, const double &b ){
 	double summ = 0;
 	double h = (b-a) / (n-1);
 	for (int i = 0; i < n-1; i++){
 		summ += y[i];
 	}
-	//t = (h/2) * (y[0] + 2*summ + y[n-1]);
+	return summ*h;
+}
+
+template <size_t n>
+double calc_integral_right(const double (&y)[n],const double &a, const double &b ){
+	double summ = 0;
+	double h = (b-a) / (n-1);
+	for (int i = 1; i < n; i++){
+		summ += y[i];
+	}
+	return summ*h;
+}
+
+template <size_t n>
+double calc_integral_average(const double (&y)[n],const double &a, const double &b ){
+	double summ = 0;
+	double h = (b-a) / (n-1);
+	for (int i = 1; i < n-1; i++){
+		summ += y[i];
+	}
+	summ+=y[0]/2;
+	summ+=y[n-1]/2;
 	return summ*h;
 }
 
@@ -68,8 +89,9 @@ int main(){
 	cout << "x = "; arr_show(x);
 	init_arr_y(x, y);
 	cout << "y = "; arr_show(y);
-	cout << "I = "<< calc_integral(y, a, b);
-
+	cout << "I = "<< calc_integral_left(y, a, b) << " - left" << endl;
+	cout << "I = "<< calc_integral_right(y, a, b) << " - right" << endl;
+	cout << "I = "<< calc_integral_average(y, a, b) << " - average" << endl;
 	return 0;
 }
 
